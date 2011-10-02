@@ -7,6 +7,8 @@
 	
 	$.fn.template = 
 	{
+			tagStart : '<%',
+			tagEnd: '%>',
 			cache : {},
 			cacheEnabled : true,
 			templateGenerator : function(str)
@@ -17,12 +19,17 @@
 			     
 			     // Introduce the data as local variables using with(){}
 			     "with(obj){p.push('" +
-			     
+
 			     // Convert the template into pure JavaScript
 			     str
+			     	// remove CDATA
+			     	.replace(/^<![CDATA[/,"").replace(/]]>$/, "")
+			     	// remove spaces
 			       .replace(/[\r\t\n]/g, " ")
 			       .split("<%").join("\t")
 			       .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+			       // fix single quotes
+			       .split("'").join("\\'")
 			       .replace(/\t=(.*?)%>/g, "',$1,'")
 			       .split("\t").join("');")
 			       .split("%>").join("p.push('")
@@ -87,5 +94,6 @@
 	};
 	
 })(jQuery);
+
 
 
