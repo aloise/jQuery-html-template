@@ -15,6 +15,8 @@
 			{
 				var fn = null;
 				
+				
+				
 				var bodyStr = "var p=[],print=function(){p.push.apply(p,arguments);};" +
 			     
 			     // Introduce the data as local variables using with(){}
@@ -23,7 +25,7 @@
 			     // Convert the template into pure JavaScript
 			     str
 			     	// remove CDATA
-			     	.replace(/^<![CDATA[/,"").replace(/]]>$/, "")
+			     	.replace(/^<!\[CDATA\[\s*/,"").replace(/\]\]>\s*$/, "")
 			     	// remove spaces
 			       .replace(/[\r\t\n]/g, " ")
 			       .split("<%").join("\t")
@@ -34,7 +36,8 @@
 			       .split("\t").join("');")
 			       .split("%>").join("p.push('")
 			       .split("\r").join("\\'")
-			   + "');}return p.join('');"
+			       
+			       + "');}return p.join('');"
 				
 				try
 				{
